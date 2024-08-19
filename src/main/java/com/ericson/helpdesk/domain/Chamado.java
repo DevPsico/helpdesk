@@ -16,16 +16,16 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Chamado implements Serializable{
+public class Chamado implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataAbertura = LocalDate.now();
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataFechamento;
 	private Prioridade prioridade;
@@ -36,10 +36,14 @@ public class Chamado implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "tecnico_id")
 	private Tecnico tecnico;
-	
+
 	@ManyToOne
-	@JoinColumn(name= "cliente_id")
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+
+	public Chamado() {
+		super();
+	}
 
 	public Chamado(Integer id, Prioridade prioridade, Status status, String titulo, String observacoes, Tecnico tecnico,
 			Cliente cliente) {
@@ -52,4 +56,5 @@ public class Chamado implements Serializable{
 		this.tecnico = tecnico;
 		this.cliente = cliente;
 	}
+
 }
