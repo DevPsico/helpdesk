@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ericson.helpdesk.TecnicoDTO;
 import com.ericson.helpdesk.domain.Tecnico;
+import com.ericson.helpdesk.dtos.TecnicoDTO;
 import com.ericson.helpdesk.services.TecnicoService;
 
 @RestController
-@RequestMapping("tecnicos")
+@RequestMapping("/tecnicos")
 public class TecnicoResource {
 	
 	@Autowired
