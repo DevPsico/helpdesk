@@ -2,8 +2,10 @@ package com.ericson.helpdesk.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ericson.helpdesk.domain.enums.Perfil;
+import com.ericson.helpdesk.dtos.TecnicoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -30,4 +32,17 @@ public class Tecnico extends Pessoa {
 		addPerfil(Perfil.TECNICO);
 		// TODO Auto-generated constructor stub
 	}
+
+	public Tecnico(TecnicoDTO tecnicoDTO) {
+		super();
+		this.id = tecnicoDTO.getId();
+		this.nome = tecnicoDTO.getNome();
+		this.cpf = tecnicoDTO.getCpf();
+		this.email = tecnicoDTO.getEmail();
+		this.senha = tecnicoDTO.getSenha();
+		this.perfis = tecnicoDTO.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+		this.dataCriacao = tecnicoDTO.getDataCriacao();
+	}
+	
+	
 }
