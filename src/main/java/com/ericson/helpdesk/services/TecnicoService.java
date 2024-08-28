@@ -14,12 +14,14 @@ import com.ericson.helpdesk.repositories.TecnicoRepository;
 import com.ericson.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.ericson.helpdesk.services.exceptions.ObjectNotFoundException;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TecnicoService {
 
 	@Autowired
 	private TecnicoRepository tecnicoRepository;
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
@@ -46,39 +48,32 @@ public class TecnicoService {
 		return tecnicoRepository.save(tecnico);
 	}
 
+	public Tecnico update(Integer id, @Valid TecnicoDTO tecnicoDTO) {
+		// TODO Auto-generated method stub
+
+		tecnicoDTO.setId(id);
+		Tecnico tecnicoURI = findById(id);
+		validaPorCpfEEmail(tecnicoDTO);
+
+		tecnicoURI = new Tecnico(tecnicoDTO);
+
+		return tecnicoRepository.save(tecnicoURI);
+	}
+
 	private void validaPorCpfEEmail(TecnicoDTO tecnicoDTO) {
 		// TODO Auto-generated method stub
-		
+
 		Optional<Pessoa> pessoa = pessoaRepository.findByCpf(tecnicoDTO.getCpf());
-		
+
 		if (pessoa.isPresent() && pessoa.get().getId() != tecnicoDTO.getId()) {
 			throw new DataIntegrityViolationException("CPF já cadastrado no sistema");
 		}
-		
+
 		pessoa = pessoaRepository.findByEmail(tecnicoDTO.getEmail());
-		
+
 		if (pessoa.isPresent() && pessoa.get().getId() != tecnicoDTO.getId()) {
 			throw new DataIntegrityViolationException("Email já cadastrado no sistema");
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
 	}
+
 }

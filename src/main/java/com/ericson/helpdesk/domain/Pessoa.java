@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.ericson.helpdesk.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -30,6 +33,7 @@ public abstract class Pessoa implements Serializable{
 	protected Integer id;
 	protected String nome;
 	
+	//@CPF
 	@Column(unique = true)
 	protected String cpf;
 	
