@@ -18,6 +18,8 @@ import com.ericson.helpdesk.domain.Tecnico;
 import com.ericson.helpdesk.dtos.TecnicoDTO;
 import com.ericson.helpdesk.services.TecnicoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/tecnicos")
 public class TecnicoResource {
@@ -44,14 +46,14 @@ public class TecnicoResource {
 		return ResponseEntity.ok().body(listDTO);
 
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO tecnicoDTO){
-		
+	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
+
 		Tecnico tecnico = tecnicoService.create(tecnicoDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(tecnico.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(tecnico.getId())
+				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	
+
 }

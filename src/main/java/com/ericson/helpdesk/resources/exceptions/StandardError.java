@@ -1,9 +1,12 @@
 package com.ericson.helpdesk.resources.exceptions;
 
+import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class StandardError {
+public class StandardError implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Long timeStamp;
 	private Integer status;
