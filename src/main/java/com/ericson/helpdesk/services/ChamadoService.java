@@ -1,5 +1,6 @@
 package com.ericson.helpdesk.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,18 @@ public class ChamadoService {
 		return chamadoRepository.save(newChamado(chamadoDTO));
 	}
 
+	public Chamado update(Integer id, @Valid ChamadoDTO chamadoDTO) {
+		// TODO Auto-generated method stub
+
+		chamadoDTO.setId(id);
+		Chamado oldChamado = findById(id);
+
+		oldChamado = newChamado(chamadoDTO);
+
+		return chamadoRepository.save(oldChamado);
+
+	}
+
 	private Chamado newChamado(ChamadoDTO chamadoDTO) {
 
 		Tecnico tecnico = tecnicoService.findById(chamadoDTO.getCodTecnico());
@@ -52,8 +65,14 @@ public class ChamadoService {
 		Chamado chamado = new Chamado();
 
 		if (chamadoDTO.getId() != null) {
-			chamado.setId(chamado.getId());
+			chamado.setId(chamadoDTO.getId());
 		}
+		
+		if (chamadoDTO.getStatus().equals(2)) {
+			chamado.setDataFechamento(LocalDate.now());
+		}
+		
+	
 
 		chamado.setTecnico(tecnico);
 		chamado.setCliente(cliente);
