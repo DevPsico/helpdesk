@@ -38,10 +38,12 @@ public class DBService {
 		
 		Chamado cha1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Sou o titulo chamado 01", "obs 1 chamado",
 				tec1, cli1);
+		
+		Chamado cha2 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Sou o chamado 2", "OBS chamado 2", tec2, cli2);
 
 		tecnicoRepository.saveAll(Arrays.asList(tec1, tec2));
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
-		chamadoRepository.saveAll(Arrays.asList(cha1));
+		chamadoRepository.saveAll(Arrays.asList(cha1, cha2));
 		
 	}
 }
