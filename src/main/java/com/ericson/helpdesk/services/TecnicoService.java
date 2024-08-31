@@ -60,6 +60,21 @@ public class TecnicoService {
 		return tecnicoRepository.save(tecnicoURI);
 	}
 
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+
+		Tecnico tecnico = findById(id);
+
+		if (tecnico.getChamados().size() > 0) {
+
+			throw new DataIntegrityViolationException(
+					"O Técnico possui ORDENS DE SERVIÇOS e não pode ser deletado !!!");
+
+		} else {
+			tecnicoRepository.deleteById(id);
+		}
+	}
+
 	private void validaPorCpfEEmail(TecnicoDTO tecnicoDTO) {
 		// TODO Auto-generated method stub
 
@@ -73,20 +88,6 @@ public class TecnicoService {
 
 		if (pessoa.isPresent() && pessoa.get().getId() != tecnicoDTO.getId()) {
 			throw new DataIntegrityViolationException("Email já cadastrado no sistema");
-		}
-	}
-
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-
-		Tecnico tecnico = findById(id);
-
-		if (tecnico.getChamados().size() > 0 ) {
-
-			throw new DataIntegrityViolationException("O Técnico possui ORDENS DE SERVIÇOS e não pode ser deletado !!!");
-
-		}else {
-			tecnicoRepository.deleteById(id);
 		}
 	}
 

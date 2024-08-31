@@ -44,10 +44,10 @@ public class TecnicoResource {
 	@GetMapping
 	public ResponseEntity<List<TecnicoDTO>> findAll() {
 
-		List<Tecnico> list = tecnicoService.findAll();
-		List<TecnicoDTO> listDTO = list.stream().map(obj -> new TecnicoDTO(obj)).collect(Collectors.toList());
+		List<Tecnico> listTecnico = tecnicoService.findAll();
+		List<TecnicoDTO> listTecnicoDTO = listTecnico.stream().map(obj -> new TecnicoDTO(obj)).collect(Collectors.toList());
 
-		return ResponseEntity.ok().body(listDTO);
+		return ResponseEntity.ok().body(listTecnicoDTO);
 
 	}
 
