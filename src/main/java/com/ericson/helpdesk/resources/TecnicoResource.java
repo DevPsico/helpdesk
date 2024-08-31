@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,6 +66,16 @@ public class TecnicoResource {
 		Tecnico tecnico = tecnicoService.update(id, tecnicoDTO);
 
 		return ResponseEntity.ok().body(new TecnicoDTO(tecnico));
+	}
+	
+	@DeleteMapping(value ="/{id}" )
+	public ResponseEntity<Void> delete (@PathVariable Integer id){
+		
+		tecnicoService.delete(id);
+		
+		
+		return ResponseEntity.noContent().build();
+		
 	}
 
 }
