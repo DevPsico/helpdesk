@@ -5,27 +5,63 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ericson.helpdesk.domain.Chamado;
+import com.ericson.helpdesk.domain.Cliente;
+import com.ericson.helpdesk.domain.Tecnico;
+import com.ericson.helpdesk.domain.enums.Prioridade;
+import com.ericson.helpdesk.domain.enums.Status;
+import com.ericson.helpdesk.dtos.ChamadoDTO;
 import com.ericson.helpdesk.repositories.ChamadoRepository;
 import com.ericson.helpdesk.services.exceptions.ObjectNotFoundException;
 
+import jakarta.validation.Valid;
+
 @Service
 public class ChamadoService {
-	
+
 	@Autowired
 	private ChamadoRepository chamadoRepository;
-	
+
+	@Autowired
+	private TecnicoService tecnicoService;
+
+	@Autowired
+	private ClienteService clienteService;
+
 	public Chamado findById(Integer id) {
-		
+
 		Optional<Chamado> obj = chamadoRepository.findById(id);
-		
+
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado ID: " + id));
 	}
 
 	public List<Chamado> findAll() {
-		// TODO Auto-generated method stub
-		
-		
+
 		return chamadoRepository.findAll();
 	}
 
+	public Chamado create(@Valid ChamadoDTO chamadoDTO) {
+
+		return chamadoRepository.save(newChamado(chamadoDTO));
+	}
+
+	private Chamado newChamado(ChamadoDTO chamadoDTO) {
+
+		Tecnico tecnico = tecnicoService.findById(chamadoDTO.getCodTecnico());
+		Cliente cliente = clienteService.findById(chamadoDTO.getCodCliente());
+
+		Chamado chamado = new Chamado();
+
+		if (chamadoDTO.getId() != null) {
+			chamado.setId(chamado.getId());
+		}
+
+		chamado.setTecnico(tecnico);
+		chamado.setCliente(cliente);
+		chamado.setPrioridade(Prioridade.toEnum(chamadoDTO.getPrioridade()));
+		chamado.setStatus(Status.toEnum(chamadoDTO.getStatus()));
+		chamado.setTitulo(chamadoDTO.getTitulo());
+		chamado.setObservacoes(chamadoDTO.getObservacoes());
+
+		return chamado;
+	}
 }
