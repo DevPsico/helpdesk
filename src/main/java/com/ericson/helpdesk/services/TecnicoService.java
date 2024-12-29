@@ -3,7 +3,10 @@ package com.ericson.helpdesk.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ericson.helpdesk.domain.Pessoa;
@@ -14,8 +17,6 @@ import com.ericson.helpdesk.repositories.TecnicoRepository;
 import com.ericson.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.ericson.helpdesk.services.exceptions.ObjectNotFoundException;
 
-import jakarta.validation.Valid;
-
 @Service
 public class TecnicoService {
 
@@ -24,6 +25,9 @@ public class TecnicoService {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Tecnico findById(Integer id) {
 
@@ -41,6 +45,7 @@ public class TecnicoService {
 	public Tecnico create(TecnicoDTO tecnicoDTO) {
 
 		tecnicoDTO.setId(null);
+		tecnicoDTO.setSenha(bCryptPasswordEncoder.encode(tecnicoDTO.getSenha()));
 
 		validaPorCpfEEmail(tecnicoDTO);
 		Tecnico tecnico = new Tecnico(tecnicoDTO);

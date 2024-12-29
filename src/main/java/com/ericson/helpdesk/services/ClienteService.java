@@ -3,8 +3,12 @@ package com.ericson.helpdesk.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.ericson.helpdesk.domain.Cliente;
 import com.ericson.helpdesk.domain.Pessoa;
 import com.ericson.helpdesk.dtos.ClienteDTO;
@@ -13,16 +17,17 @@ import com.ericson.helpdesk.repositories.PessoaRepository;
 import com.ericson.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.ericson.helpdesk.services.exceptions.ObjectNotFoundException;
 
-import jakarta.validation.Valid;
-
 @Service
 public class ClienteService {
 
 	@Autowired
-	ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 
 	@Autowired
-	PessoaRepository pessoaRepository;
+	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente findById(Integer id) {
 		// TODO Auto-generated method stub
@@ -41,6 +46,7 @@ public class ClienteService {
 		// TODO Auto-generated method stub
 
 		clienteDTO.setId(null);
+		clienteDTO.setSenha(bCryptPasswordEncoder.encode(clienteDTO.getSenha()));
 		validaPorCpfEEmail(clienteDTO);
 
 		Cliente cliente = new Cliente(clienteDTO);
@@ -88,5 +94,4 @@ public class ClienteService {
 			throw new DataIntegrityViolationException("Email já cadastrado no sistema");
 		}
 	}
-
 }

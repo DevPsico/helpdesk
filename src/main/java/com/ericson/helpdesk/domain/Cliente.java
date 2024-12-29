@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
 import com.ericson.helpdesk.domain.enums.Perfil;
 import com.ericson.helpdesk.dtos.ClienteDTO;
-import com.ericson.helpdesk.dtos.TecnicoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data

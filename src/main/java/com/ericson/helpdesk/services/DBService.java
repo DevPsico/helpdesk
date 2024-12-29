@@ -2,6 +2,7 @@ package com.ericson.helpdesk.services;
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ericson.helpdesk.domain.Chamado;
 import com.ericson.helpdesk.domain.Cliente;
@@ -17,23 +18,25 @@ import com.ericson.helpdesk.repositories.TecnicoRepository;
 public class DBService {
 	
 	@Autowired
-	TecnicoRepository tecnicoRepository;
+	private TecnicoRepository tecnicoRepository;
 	@Autowired
-	ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 	@Autowired
-	ChamadoRepository chamadoRepository;
+	private ChamadoRepository chamadoRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	
 	public void instanciaDb() {
 		
-		Tecnico tec1 = new Tecnico(null, "Ericson Sérgio", "00912971410", "ericson@algo.com.br", "1234");
+		Tecnico tec1 = new Tecnico(null, "Ericson Sérgio", "00912971410", "ericson@algo.com.br", bCryptPasswordEncoder.encode("123"));
 		tec1.addPerfil(Perfil.TECNICO);
 		
-		Tecnico tec2 = new Tecnico(null, "Mariana", "12345678900", "mariana@algo.com.br", "1234");
+		Tecnico tec2 = new Tecnico(null, "Mariana", "12345678900", "mariana@algo.com.br", bCryptPasswordEncoder.encode("123"));
 
-		Cliente cli1 = new Cliente(null, "Cliente ericson", "00312345670", "cliente@algo.com.br", "122");
+		Cliente cli1 = new Cliente(null, "Cliente ericson", "00312345670", "cliente@algo.com.br", bCryptPasswordEncoder.encode("123"));
 
-		Cliente cli2 = new Cliente(null, "Cliente Mariana", "04115703407", "mariana@algo2.com.br", "1234");
+		Cliente cli2 = new Cliente(null, "Cliente Mariana", "04115703407", "mariana@algo2.com.br", bCryptPasswordEncoder.encode("123"));
 		
 		
 		Chamado cha1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Sou o titulo chamado 01", "obs 1 chamado",

@@ -2,10 +2,12 @@ package com.ericson.helpdesk.dtos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
+import javax.validation.constraints.NotNull;
+
 import com.ericson.helpdesk.domain.Chamado;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
