@@ -30,7 +30,7 @@ public class DBService {
 	public void instanciaDb() {
 		
 		Tecnico tec1 = new Tecnico(null, "Ericson Sérgio", "00912971410", "ericson@algo.com.br", bCryptPasswordEncoder.encode("123"));
-		tec1.addPerfil(Perfil.TECNICO);
+		tec1.addPerfil(Perfil.ADMIN);
 		
 		Tecnico tec2 = new Tecnico(null, "Mariana", "12345678900", "mariana@algo.com.br", bCryptPasswordEncoder.encode("123"));
 
