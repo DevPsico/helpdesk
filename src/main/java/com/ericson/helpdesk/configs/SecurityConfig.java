@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept")); // Cabeçalhos
 																									// permitidos
+		 configuration.setAllowCredentials(true); // Permitir credenciais (se necessário)
 
 		// Instanciando e registrando a configuração CORS
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
