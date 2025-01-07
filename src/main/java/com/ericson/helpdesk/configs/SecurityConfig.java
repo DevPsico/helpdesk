@@ -25,8 +25,9 @@ import com.ericson.helpdesk.security.JWTUtil;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", };
-
+	//private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" }; // Esse era o que estava antes
+	private static final String[] PUBLIC_MATCHERS = { "/public/**" };
+	
 	@Autowired
 	private Environment env;
 
@@ -66,7 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CorsConfiguration configuration = new CorsConfiguration();
 
 		// Adicionando a origem permitida (ajuste conforme necessário)
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Permitir o Angular no localhost
+		//configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Permitir o Angular no localhost
+		configuration.setAllowedOrigins(Arrays.asList("*"));
 		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept")); // Cabeçalhos
 																									// permitidos
