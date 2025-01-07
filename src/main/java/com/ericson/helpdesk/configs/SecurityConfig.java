@@ -23,52 +23,55 @@ import com.ericson.helpdesk.security.JWTUtil;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
-public class SecurityConfig  extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**",  };
+	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", };
 
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private JWTUtil jwtUtil;
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-			//Só para fazer UP GIT - PD APAGAR
+		// Só para fazer UP GIT - PD APAGAR
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
-			
-		}
-		
-			http.cors().and().csrf().disable();
-	        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-	        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
-	        http.authorizeRequests()
-	            .antMatchers(PUBLIC_MATCHERS).permitAll()
-	            ///ESSe é provissório 
-	            .antMatchers("/public/**").permitAll()
-	            .anyRequest().authenticated();
 
-	        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);	
+		}
+
+		http.cors().and().csrf().disable();
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
+		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
+				/// ESSe é provissório
+				.antMatchers("/public/**").permitAll().anyRequest().authenticated();
+
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
+
 	@Override
-	protected void  configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
-	
-	
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-		
-		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-		configuration.setAllowedMethods(java.util.Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		// Adicionando a origem permitida (ajuste conforme necessário)
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Permitir o Angular no localhost
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept")); // Cabeçalhos
+																									// permitidos
+
+		// Instanciando e registrando a configuração CORS
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 
@@ -76,7 +79,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 
 	}
 
-	//Criptografando a senha
+	// Criptografando a senha
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
