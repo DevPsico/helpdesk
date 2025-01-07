@@ -91,6 +91,13 @@
 			<version>20210307</version>
 		</dependency>
 
+		<!-- HEROKU -->
+
+		<dependency>
+			<groupId>com.heroku.sdk</groupId>
+			<artifactId>heroku-jdbc</artifactId>
+			<version>0.1.1</version>
+		</dependency>
 
 	</dependencies>
 
